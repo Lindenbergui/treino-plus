@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#17191c"
+    >
+
+    <meta
+        name="description"
+        content="Treino+ - Controle seus exercícios, cargas e repetições."
+    >
+
+    <link
+        rel="manifest"
+        href="./manifest.json"
+    >
+
+    <link
+        rel="stylesheet"
+        href="./style.css"
+    >
+
+    <title>Treino+</title>
+
+</head>
+
+
+<body>
+
+
+    <!-- SIDEBAR -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                💪
+            </div>
+
+            <div>
+
+                <h1>
+                    Treino+
+                </h1>
+
+                <small>
+                    Controle de treino
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <nav class="menu">
+
+            <button
+                class="menu-item active"
+                onclick="mostrarTela('inicio', this)"
+            >
+
+                <span>🏠</span>
+
+                <span>
+                    Início
+                </span>
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                onclick="mostrarTela('exercicios', this)"
+            >
+
+                <span>🏋️</span>
+
+                <span>
+                    Exercícios
+                </span>
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                onclick="mostrarTela('evolucao', this)"
+            >
+
+                <span>📊</span>
+
+                <span>
+                    Evolução
+                </span>
+
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="menu-item"
+                onclick="mostrarTela('configuracoes', this)"
+            >
+
+                <span>⚙️</span>
+
+                <span>
+                    Configurações
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ÁREA PRINCIPAL -->
+
+    <div class="main">
+
+
+        <!-- TOPO -->
+
+        <header class="topbar">
+
+            <button
+                class="mobile-menu"
+                onclick="abrirSidebar()"
+            >
+                ☰
+            </button>
+
+
+            <h2 id="tituloTela">
+                Início
+            </h2>
+
+        </header>
+
+
+
+        <!-- CONTEÚDO -->
+
+        <main>
+
+
+            <!-- INÍCIO -->
+
+            <section
+                id="inicio"
+                class="tela"
+            >
+
+                <div class="welcome">
+
+                    <h1>
+                        Olá! 👋
+                    </h1>
+
+                    <p>
+                        Controle seus exercícios,
+                        cargas e repetições.
+                    </p>
+
+                </div>
+
+
+                <div class="resumo">
+
+
+                    <div class="resumo-card">
+
+                        <div class="resumo-icon">
+                            💪
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Grupos
+                            </span>
+
+                            <strong id="contadorGrupos">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="resumo-card">
+
+                        <div class="resumo-icon">
+                            🏋️
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Exercícios
+                            </span>
+
+                            <strong id="contadorExercicios">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="section-title">
+
+                    <div>
+
+                        <h2>
+                            Meus grupos
+                        </h2>
+
+                        <p>
+                            Seus grupos musculares cadastrados.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="gruposInicio"
+                    class="grid"
+                ></div>
+
+            </section>
+
+
+
+            <!-- EXERCÍCIOS -->
+
+            <section
+                id="exercicios"
+                class="tela escondida"
+            >
+
+
+                <div id="listaGrupos">
+
+
+                    <div class="section-title">
+
+                        <div>
+
+                            <h1>
+                                Exercícios
+                            </h1>
+
+                            <p>
+                                Organize seus exercícios
+                                por grupo muscular.
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            class="btn-primary"
+                            onclick="abrirModalGrupo()"
+                        >
+                            + Novo grupo
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        id="gruposContainer"
+                        class="grid"
+                    ></div>
+
+
+                </div>
+
+
+
+                <!-- DETALHES DO GRUPO -->
+
+                <div
+                    id="detalhesGrupo"
+                    class="escondida"
+                >
+
+
+                    <button
+                        class="back-button"
+                        onclick="voltarGrupos()"
+                    >
+                        ← Voltar para grupos
+                    </button>
+
+
+
+                    <div class="grupo-header">
+
+
+                        <div class="grupo-titulo">
+
+
+                            <div
+                                class="grupo-icone"
+                                id="iconeGrupo"
+                            >
+                                💪
+                            </div>
+
+
+                            <div>
+
+                                <h1 id="nomeGrupo">
+                                    Grupo
+                                </h1>
+
+                                <p>
+                                    Exercícios deste grupo
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <button
+                            class="btn-primary"
+                            onclick="abrirModalExercicio()"
+                        >
+                            + Novo exercício
+                        </button>
+
+
+                    </div>
+
+
+                    <div
+                        id="exerciciosContainer"
+                    ></div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- EVOLUÇÃO -->
+
+            <section
+                id="evolucao"
+                class="tela escondida"
+            >
+
+
+                <div class="section-title">
+
+                    <div>
+
+                        <h1>
+                            Evolução
+                        </h1>
+
+                        <p>
+                            Acompanhe sua evolução.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="coming">
+
+                    <div>
+                        📊
+                    </div>
+
+                    <h2>
+                        Em breve
+                    </h2>
+
+                    <p>
+                        Aqui vamos colocar gráficos
+                        e histórico das suas cargas
+                        e repetições.
+                    </p>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- CONFIGURAÇÕES -->
+
+            <section
+                id="configuracoes"
+                class="tela escondida"
+            >
+
+
+                <div class="section-title">
+
+                    <div>
+
+                        <h1>
+                            Configurações
+                        </h1>
+
+                        <p>
+                            Configurações do aplicativo.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="coming">
+
+                    <div>
+                        ⚙️
+                    </div>
+
+                    <h2>
+                        Em breve
+                    </h2>
+
+                    <p>
+                        Configurações serão adicionadas
+                        nas próximas versões.
+                    </p>
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+
+    <!-- MODAL GRUPO -->
+
+    <div
+        id="modalGrupo"
+        class="modal escondido"
+    >
+
+        <div class="modal-box">
+
+
+            <div class="modal-header">
+
+                <h2>
+                    Novo grupo
+                </h2>
+
+                <button
+                    onclick="fecharModalGrupo()"
+                    class="close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <label>
+                Nome do grupo
+            </label>
+
+
+            <input
+                id="nomeGrupoInput"
+                type="text"
+                placeholder="Ex.: Pernas"
+            >
+
+
+            <div class="modal-buttons">
+
+                <button
+                    class="btn-secondary"
+                    onclick="fecharModalGrupo()"
+                >
+                    Cancelar
+                </button>
+
+
+                <button
+                    class="btn-primary"
+                    onclick="salvarGrupo()"
+                >
+                    Salvar
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MODAL EXERCÍCIO -->
+
+    <div
+        id="modalExercicio"
+        class="modal escondido"
+    >
+
+        <div class="modal-box">
+
+
+            <div class="modal-header">
+
+                <h2 id="tituloModalExercicio">
+                    Novo exercício
+                </h2>
+
+
+                <button
+                    onclick="fecharModalExercicio()"
+                    class="close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <label>
+                Nome do exercício
+            </label>
+
+
+            <input
+                id="nomeExercicioInput"
+                type="text"
+                placeholder="Ex.: Agachamento"
+            >
+
+
+
+            <label>
+                Carga atual
+            </label>
+
+
+            <div class="input-unit">
+
+                <input
+                    id="cargaInput"
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    placeholder="60"
+                >
+
+                <span>
+                    kg
+                </span>
+
+            </div>
+
+
+
+            <label>
+                Repetições realizadas
+            </label>
+
+
+            <input
+                id="repeticoesInput"
+                type="number"
+                min="0"
+                placeholder="8"
+            >
+
+
+
+            <div class="modal-buttons">
+
+                <button
+                    class="btn-secondary"
+                    onclick="fecharModalExercicio()"
+                >
+                    Cancelar
+                </button>
+
+
+                <button
+                    class="btn-primary"
+                    onclick="salvarExercicio()"
+                >
+                    Salvar
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="./script.js"></script>
+
+
+</body>
+
+</html>
