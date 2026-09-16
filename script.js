@@ -186,6 +186,13 @@ function mostrarTela(nome, botao) {
         document.getElementById(nome);
 
 
+    if (!telaEscolhida) {
+
+        return;
+
+    }
+
+
     telaEscolhida.classList.remove(
         "escondida"
     );
@@ -361,7 +368,9 @@ function mostrarGrupos() {
 
 
         const quantidade =
-            grupo.exercicios.length;
+            grupo.exercicios
+                ? grupo.exercicios.length
+                : 0;
 
 
         card.innerHTML = `
@@ -457,7 +466,9 @@ function mostrarGruposInicio() {
 
 
         const quantidade =
-            grupo.exercicios.length;
+            grupo.exercicios
+                ? grupo.exercicios.length
+                : 0;
 
 
         card.innerHTML = `
@@ -555,6 +566,186 @@ function abrirGrupo(index) {
 
     mostrarExercicios();
 
+    criarBotaoExcluirGrupo();
+
+}
+
+
+// =========================================
+// BOTÃO EXCLUIR GRUPO
+// =========================================
+
+function criarBotaoExcluirGrupo() {
+
+    if (!detalhesGrupo) {
+
+        return;
+
+    }
+
+
+    // Remove botão antigo, caso exista
+    const botaoAntigo =
+        document.getElementById(
+            "btnExcluirGrupo"
+        );
+
+
+    if (botaoAntigo) {
+
+        botaoAntigo.remove();
+
+    }
+
+
+    const botao =
+        document.createElement("button");
+
+
+    botao.id =
+        "btnExcluirGrupo";
+
+
+    botao.type =
+        "button";
+
+
+    botao.innerHTML =
+        "🗑️ Excluir grupo";
+
+
+    botao.onclick =
+        function(event) {
+
+            event.stopPropagation();
+
+            excluirGrupo();
+
+        };
+
+
+    // Tenta encontrar uma área de ações
+    // já existente no detalhe do grupo
+
+    const areaAcoes =
+        detalhesGrupo.querySelector(
+            ".acoes-grupo"
+        );
+
+
+    if (areaAcoes) {
+
+        areaAcoes.appendChild(botao);
+
+        return;
+
+    }
+
+
+    // Caso não exista uma área específica,
+    // cria uma automaticamente
+
+    const novaArea =
+        document.createElement("div");
+
+
+    novaArea.className =
+        "acoes-grupo";
+
+
+    novaArea.style.marginTop =
+        "15px";
+
+
+    novaArea.style.marginBottom =
+        "15px";
+
+
+    novaArea.appendChild(botao);
+
+
+    detalhesGrupo.insertBefore(
+        novaArea,
+        exerciciosContainer
+    );
+
+}
+
+
+// =========================================
+// EXCLUIR GRUPO
+// =========================================
+
+function excluirGrupo() {
+
+    if (grupoSelecionado === null) {
+
+        return;
+
+    }
+
+
+    const grupo =
+        grupos[grupoSelecionado];
+
+
+    if (!grupo) {
+
+        return;
+
+    }
+
+
+    const quantidadeExercicios =
+        grupo.exercicios
+            ? grupo.exercicios.length
+            : 0;
+
+
+    let mensagem =
+        `Deseja excluir o grupo "${grupo.nome}"?`;
+
+
+    if (quantidadeExercicios > 0) {
+
+        mensagem +=
+            `\n\nEste grupo possui ${quantidadeExercicios} ` +
+            `${
+                quantidadeExercicios === 1
+                    ? "exercício"
+                    : "exercícios"
+            }.` +
+            `\nTodos eles também serão excluídos.`;
+
+    }
+
+
+    const confirmou =
+        confirm(mensagem);
+
+
+    if (!confirmou) {
+
+        return;
+
+    }
+
+
+    grupos.splice(
+        grupoSelecionado,
+        1
+    );
+
+
+    grupoSelecionado = null;
+
+
+    salvarDados();
+
+    atualizarTela();
+
+    voltarGrupos();
+
 }
 
 
@@ -575,6 +766,19 @@ function voltarGrupos() {
     detalhesGrupo.classList.add(
         "escondida"
     );
+
+
+    const botaoExcluir =
+        document.getElementById(
+            "btnExcluirGrupo"
+        );
+
+
+    if (botaoExcluir) {
+
+        botaoExcluir.remove();
+
+    }
 
 
     if (
@@ -613,8 +817,21 @@ function mostrarExercicios() {
         grupos[grupoSelecionado];
 
 
+    if (!grupo) {
+
+        return;
+
+    }
+
+
+    if (!grupo.exercicios) {
+
+        grupo.exercicios = [];
+
+    }
+
+
     if (
-        !grupo.exercicios ||
         grupo.exercicios.length === 0
     ) {
 
@@ -957,6 +1174,13 @@ function salvarExercicio() {
         grupos[grupoSelecionado];
 
 
+    if (!grupo.exercicios) {
+
+        grupo.exercicios = [];
+
+    }
+
+
     if (
         exercicioEditando !== null
     ) {
@@ -1013,6 +1237,13 @@ function editarExercicio(index) {
         grupos[grupoSelecionado];
 
 
+    if (!grupo) {
+
+        return;
+
+    }
+
+
     const exercicio =
         grupo.exercicios[index];
 
@@ -1065,6 +1296,13 @@ function excluirExercicio(index) {
 
     const grupo =
         grupos[grupoSelecionado];
+
+
+    if (!grupo) {
+
+        return;
+
+    }
 
 
     const exercicio =
@@ -1225,6 +1463,7 @@ grupos.forEach(function(grupo) {
 
 });
 
+
 // =========================================
 // SERVICE WORKER / PWA
 // =========================================
@@ -1257,6 +1496,7 @@ if ("serviceWorker" in navigator) {
     );
 
 }
+
 
 salvarDados();
 
